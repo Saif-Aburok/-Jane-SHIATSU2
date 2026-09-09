@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Jane Morrell | Zen Shiatsu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Lora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   🎛️ لوحة التحكم — غيّري الأرقام هنا فقط
+   ========================================================== */
+:root{
+    /* رابط اللوحة الفنية (خلفية الواجهة الأولى) */
+    --artwork:url('https://i.postimg.cc/jddCfNwK/Whats-App-Image-2026-08-26-at-4-17-03-PM.jpg');
+
+    /* ---------- حجم الصور على اللابتوب / الكمبيوتر ---------- */
+    --room-laptop:510px;   /* صورة غرفة العلاج (قسم About Shiatsu) */
+    --jane-laptop:700px;   /* صورة Jane (قسم About Me) */
+    --jane-height:940px; 
+    /* ---------- حجم الصور على الجوال / التابلت الطولي ---------- */
+    --room-mobile:150%;    /* 100% = بعرض الشاشة كاملة */
+    --jane-mobile:82%;     /* 82% من عرض الشاشة */
+
+    /* ---------- اللوحة الفنية على الجوال ---------- */
+    --hero-mobile-fit:cover;        /* cover = تملأ الشاشة مثل اللابتوب | contain = تظهر اللوحة كاملة بدون قص */
+    --hero-mobile-position:center;  /* الجزء الظاهر من اللوحة: center / top / bottom / left / right */
+}
+/* ══ طول صورة Jane على اللابتوب ══ */
+@media (min-width:901px){
+    .jane-photo .photo-frame{
+        height:var(--jane-height);
+        display:flex;
+    }
+    .jane-photo .photo-frame img{
+        height:100%;
+        object-fit:cover;
+        object-position:center;
+    }
+}
+
+
+
+:root{
+    --deep:#0f2a3a; --primary:#1a4a5c; --teal:#2f8f8b;
+    --warm:#c99a6b; --warm-light:#e8c9a5;
+    --sand:#f6efe3; --cream:#fffdf9;
+    --text:#1b2f3e; --text2:#33495a;
+    --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+    font-family:'Lora',serif;
+    background-color:var(--cream);
+    background-image:
+        radial-gradient(circle at 10% 15%, rgba(47,143,139,.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(201,154,107,.08) 0%, transparent 40%);
+    background-attachment:fixed;
+    color:var(--text); overflow-x:hidden; min-height:100vh;
+}
+body::before{
+    content:''; position:fixed; inset:0; z-index:9999; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--sand)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--teal),var(--warm));border-radius:20px;border:2px solid var(--sand)}
+img{max-width:100%}
+h1,h2,h3{font-family:'Lora',serif;font-weight:800;color:var(--deep);letter-spacing:-.5px}
+p{line-height:1.9;font-size:clamp(1rem,1.1vw + .75rem,1.08rem);color:var(--text2);font-weight:400;overflow-wrap:break-word}
+a{text-decoration:none;transition:all .45s var(--ease)}
+
+/* ============ HERO ============ */
+.hero-header{
+    position:relative;min-height:100vh;min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;padding:clamp(56px,7vh,80px) clamp(18px,4vw,40px);isolation:isolate;
+}
+.hero-header::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:-4;
+    background-color:var(--cream);
+    background-image:var(--artwork);
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    opacity:1;
+    filter:none;
+}
+/* طبقة اللوحة الخاصة بالجوال — مخفية على اللابتوب */
+.hero-art{display:none}
+.hero-header::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    background:linear-gradient(
+        180deg,
+        rgba(255,253,249,.10) 0%,
+        rgba(255,253,249,.03) 40%,
+        rgba(246,239,227,.28) 100%
+    );
+}
+.glow-aura{
+    position:absolute;top:45%;left:50%;width:min(900px,120vw);height:700px;transform:translate(-50%,-50%);
+    background:radial-gradient(ellipse at center,rgba(47,143,139,.12) 0%,rgba(201,154,107,.08) 35%,transparent 70%);
+    filter:blur(40px);border-radius:50%;z-index:-1;
+}
+.petal{
+    position:absolute;top:-30px;border-radius:70% 0 70% 0;opacity:0;z-index:-1;
+    background:linear-gradient(135deg,rgba(232,201,165,.9),rgba(201,154,107,.7));
+    animation:petalFall linear infinite;
+}
+@keyframes petalFall{
+    0%{transform:translate(0,-30px) rotate(0deg);opacity:0}
+    12%{opacity:.5}
+    85%{opacity:.4}
+    100%{transform:translate(60px,96vh) rotate(340deg);opacity:0}
+}
+.hero-inner{
+    max-width:1200px;margin:0 auto;width:100%;
+    display:grid;grid-template-columns:1fr;
+    gap:clamp(40px,5vw,70px);align-items:center;justify-items:center;
+    text-align:center;
+    animation:fadeUp 1.2s var(--ease);
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:translateY(0)}}
+.hero-content{text-align:center}
+.hero-title{
+    font-size:clamp(2.5rem,6.5vw,5.2rem);
+    line-height:.98;
+    text-shadow:0 2px 20px rgba(255,253,249,.9);
+        color:#000000;
+}
+.hero-subtitle{
+    font-family:'Cairo',sans-serif;font-size:clamp(.95rem,2.2vw,1.4rem);  color:#000000;;
+    letter-spacing:clamp(4px,1vw,7px);font-weight:700;margin:18px 0 0;display:inline-block;
+    text-shadow:0 1px 10px rgba(255,253,249,.95);
+}
+.hero-subtitle::before{content:'—';margin-right:14px;color:var(--warm);font-weight:300}
+
+.scroll-hint{
+    position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+    color:var(--teal);font-size:1.4rem;animation:bob 2.4s ease-in-out infinite;z-index:2;
+}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(9px)}}
+
+/* ============ MAIN ============ */
+.main-container{max-width:1280px;margin:0 auto;padding:0 clamp(16px,2.5vw,24px);position:relative;z-index:1}
+.grid-section,.full-width-section,.contact-box-section{margin:clamp(64px,9vw,110px) 0}
+.grid-section{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.grid-section.visible{opacity:1;transform:translateY(0)}
+.grid-wrapper{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,70px);align-items:center}
+.grid-item{display:flex;flex-direction:column}
+
+/* الصور: تظهر بحجمها الطبيعي بدون قص — والحجم من لوحة التحكم فوق */
+.image-item{display:flex;width:100%;justify-self:center}
+.room-photo{max-width:var(--room-laptop)}
+.jane-photo{max-width:var(--jane-laptop)}
+
+.photo-frame{
+    display:block;padding:10px;
+    background:linear-gradient(135deg,#fff 0%,var(--sand) 100%);
+    border:1px solid rgba(47,143,139,.18);
+    border-radius:20px;
+    box-shadow:0 25px 70px rgba(15,42,58,.12),0 5px 15px rgba(47,143,139,.08);
+    overflow:hidden;position:relative;
+    transition:transform .6s var(--ease),box-shadow .6s var(--ease);
+}
+.photo-frame:hover{transform:translateY(-5px);box-shadow:0 32px 85px rgba(15,42,58,.16)}
+.photo-frame img{display:block;width:100%;height:auto;border-radius:12px}
+
+/* ============ CARDS ============ */
+.glass-card{
+    background:linear-gradient(135deg,rgba(255,255,255,.94) 0%,rgba(255,253,249,.9) 100%);
+    backdrop-filter:blur(18px);border:1px solid rgba(47,143,139,.16);
+    border-radius:22px;padding:clamp(34px,4.5vw,48px) clamp(22px,3.8vw,42px);
+    box-shadow:0 12px 40px rgba(15,42,58,.06);position:relative;overflow:hidden;
+    transition:transform .6s var(--ease),box-shadow .6s var(--ease);
+    display:flex;flex-direction:column;justify-content:center;
+}
+.glass-card:hover{transform:translateY(-5px);box-shadow:0 22px 55px rgba(15,42,58,.1)}
+.glass-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg,var(--teal),var(--warm));opacity:.85;
+}
+.glass-card::after{
+    content:'';position:absolute;bottom:14px;right:14px;width:42px;height:42px;
+    border-bottom:1.5px solid rgba(201,154,107,.4);border-right:1.5px solid rgba(201,154,107,.4);
+    border-radius:0 0 10px 0;
+}
+.card-header{margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(47,143,139,.12)}
+.card-header .section-title{margin-bottom:0}
+.section-title{font-size:clamp(1.7rem,4vw,2.7rem);line-height:1.1;margin-bottom:0}
+.content-text{color:#2c4354;font-weight:400;line-height:1.95}
+.card-body{display:flex;flex-direction:column;gap:18px}
+
+/* ============ FULL WIDTH ============ */
+.full-width-section{
+    padding:clamp(48px,7vw,80px) clamp(20px,4.5vw,44px);border-radius:clamp(20px,3vw,28px);
+    background:rgba(255,255,255,.80);backdrop-filter:blur(16px);
+    border:1px solid rgba(47,143,139,.12);box-shadow:0 20px 60px rgba(15,42,58,.06);
+    position:relative;overflow:hidden;opacity:0;transform:translateY(28px);
+    transition:opacity 1s var(--ease),transform 1s var(--ease);
+}
+.full-width-section.visible{opacity:1;transform:translateY(0)}
+.full-width-section::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.9;
+    background-image:url("data:image/svg+xml,%3Csvg width='56' height='28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%232f8f8b' stroke-opacity='0.05'%3E%3Ccircle cx='0' cy='28' r='28'/%3E%3Ccircle cx='28' cy='28' r='28'/%3E%3Ccircle cx='56' cy='28' r='28'/%3E%3Ccircle cx='0' cy='0' r='28'/%3E%3Ccircle cx='28' cy='0' r='28'/%3E%3Ccircle cx='56' cy='0' r='28'/%3E%3Ccircle cx='14' cy='14' r='28'/%3E%3Ccircle cx='42' cy='14' r='28'/%3E%3C/g%3E%3C/svg%3E");
+}
+.full-width-section::after{
+    content:'';position:absolute;bottom:16px;right:16px;width:46px;height:46px;
+    border-bottom:1.5px solid rgba(201,154,107,.35);border-right:1.5px solid rgba(201,154,107,.35);
+    border-radius:0 0 14px 0;
+}
+.section-content{max-width:1100px;margin:0 auto;position:relative}
+.section-content .section-title{text-align:center;margin-bottom:clamp(28px,4vw,44px)}
+
+.expectations-list{display:grid;gap:clamp(16px,2.5vw,22px)}
+.expectation-item{
+    display:flex;gap:22px;align-items:flex-start;padding:clamp(18px,3vw,26px) clamp(18px,3vw,30px);
+    background:linear-gradient(135deg,rgba(255,255,255,.92) 0%,rgba(246,239,227,.72) 100%);
+    border:1px solid rgba(47,143,139,.12);border-left:4px solid var(--teal);
+    border-radius:14px;transition:all .5s var(--ease);
+}
+.expectation-item:hover{transform:translateX(9px);border-left-color:var(--warm);box-shadow:0 12px 30px rgba(15,42,58,.08)}
+.bullet-icon{
+    width:38px;height:38px;flex-shrink:0;background:rgba(47,143,139,.12);color:var(--teal);
+    border-radius:50%;display:grid;place-items:center;font-size:.88rem;font-weight:700;
+    border:1px solid rgba(47,143,139,.15);
+}
+.expectation-text{font-size:1.02rem;color:#2c4354;font-weight:400}
+
+/* ============ BOOKING ============ */
+.intro-text{text-align:center;max-width:730px;margin:0 auto clamp(30px,4vw,45px);font-size:clamp(1rem,1.3vw,1.12rem);font-weight:400}
+.cta-button-wrapper{display:flex;justify-content:center}
+.cta-button{
+    position:relative;padding:clamp(18px,2.5vw,22px) clamp(40px,6vw,62px);border-radius:100px;
+    background:linear-gradient(135deg,var(--deep) 0%,var(--primary) 100%);
+    color:#fff;display:inline-flex;flex-direction:column;align-items:center;gap:6px;
+    box-shadow:0 15px 35px rgba(15,42,58,.25);overflow:hidden;isolation:isolate;
+    transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+    touch-action:manipulation;
+}
+.cta-button::before{
+    content:'';position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .5s var(--ease);
+    background:linear-gradient(135deg,var(--teal) 0%,var(--warm) 100%);
+}
+.cta-button:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 22px 50px rgba(15,42,58,.3)}
+.cta-button:hover::before{opacity:1}
+.cta-button:active{transform:scale(.98)}
+.button-text{font-size:clamp(1.05rem,1.6vw,1.2rem);font-weight:700;letter-spacing:.5px}
+.button-subtext{font-family:'Cairo',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;opacity:.88;text-align:center}
+.pulse-ripple{
+    position:absolute;top:50%;left:50%;width:100%;height:100%;border-radius:100px;
+    background:rgba(255,255,255,.14);transform:translate(-50%,-50%) scale(.85);
+    animation:radar 2.6s ease-out infinite;pointer-events:none;
+}
+@keyframes radar{0%{transform:translate(-50%,-50%) scale(.85);opacity:.65}100%{transform:translate(-50%,-50%) scale(1.7);opacity:0}}
+
+/* ============ CONTACT BOX ============ */
+.contact-box{
+    max-width:920px;margin:0 auto;background:#fff;
+    border:1px solid rgba(47,143,139,.18);border-radius:24px;
+    padding:clamp(36px,5vw,52px) clamp(20px,4vw,40px);text-align:center;
+    box-shadow:0 20px 55px rgba(15,42,58,.08);position:relative;overflow:hidden;
+}
+.contact-box::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:5px;
+    background:linear-gradient(90deg,var(--teal),var(--warm),var(--teal));
+}
+.contact-box::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg width='56' height='28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c99a6b' stroke-opacity='0.05'%3E%3Ccircle cx='0' cy='28' r='28'/%3E%3Ccircle cx='28' cy='28' r='28'/%3E%3Ccircle cx='56' cy='28' r='28'/%3E%3Ccircle cx='14' cy='14' r='28'/%3E%3Ccircle cx='42' cy='14' r='28'/%3E%3C/g%3E%3C/svg%3E");
+}
+.contact-box .section-title{font-size:clamp(1.6rem,3vw,2rem);margin-bottom:0;position:relative;z-index:1}
+.contact-rows{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(28px,4vw,38px);position:relative;z-index:1;align-items:start}
+.contact-row{padding:14px 18px;border-right:1px solid rgba(47,143,139,.14)}
+.contact-row:last-child{border-right:none}
+.contact-label{
+    font-family:'Cairo',sans-serif;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--warm);font-weight:700;margin-bottom:10px;
+}
+.contact-value,.contact-value a{color:var(--deep);font-size:clamp(.92rem,1.2vw,1.02rem);font-weight:600;line-height:1.7;display:block}
+.contact-value a{padding:4px 0}
+.contact-value a:hover{color:var(--teal)}
+
+/* ============ فاصل ============ */
+.ornament-divider{display:flex;align-items:center;justify-content:center;gap:16px;margin:-42px auto 0;width:fit-content;position:relative;z-index:2}
+.ornament-divider span{width:clamp(50px,8vw,80px);height:1px;background:linear-gradient(90deg,transparent,rgba(47,143,139,.45))}
+.ornament-divider span:last-child{background:linear-gradient(90deg,rgba(47,143,139,.45),transparent)}
+
+/* ============ FOOTER ============ */
+.footer{
+    margin-top:clamp(60px,8vw,90px);padding:clamp(38px,5vw,50px) 20px;
+    background:linear-gradient(180deg,var(--sand) 0%,#efe3d0 100%);
+    border-top:1px solid rgba(47,143,139,.12);text-align:center;
+}
+.footer-note{
+    max-width:640px;margin:0 auto;font-family:'Lora',serif;font-style:italic;
+    font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.85;color:var(--deep);
+}
+.footer-note::before{content:'✿';display:block;color:var(--warm);font-size:1rem;margin-bottom:12px;font-style:normal}
+.footer-rule{width:70px;height:1px;background:rgba(201,154,107,.5);margin:24px auto 18px}
+.footer-text{font-weight:600;color:var(--deep);font-size:.9rem}
+.footer-subtext{font-family:'Cairo',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-top:6px}
+
+/* ============================================================
+   ============ نظام التجاوب الشامل للأجهزة ============
+   ============================================================ */
+
+/* ===== لابتوب صغير (≤1200px) ===== */
+@media (max-width:1200px){
+    .glow-aura{height:600px}
+}
+
+/* ===== تابلت (≤1024px) — لسا عمودين مثل اللابتوب ===== */
+@media (max-width:1024px){
+    .hero-header{padding:70px clamp(20px,4vw,32px)}
+    .contact-box{padding:44px 26px}
+}
+
+/* ===== تابلت Landscape (860–1024px) ===== */
+@media (max-width:1024px) and (orientation:landscape) and (min-width:860px){
+    .hero-header{padding:48px 32px}
+    .hero-title{font-size:clamp(2.4rem,4.5vw,3.8rem)}
+}
+
+/* ===== الجوال + التابلت الطولي (≤900px) — هنا فقط يتحوّل الموقع لعمود واحد ===== */
+@media (max-width:900px){
+    /* الواجهة الأولى: اللوحة بارتفاع الشاشة كاملة مثل اللابتوب */
+    .hero-header::before{filter:blur(22px) saturate(.95);transform:scale(1.12)}
+    .hero-art{
+        display:block;position:absolute;inset:0;z-index:-3;
+        background-image:var(--artwork);
+        background-size:var(--hero-mobile-fit);
+        background-position:var(--hero-mobile-position);
+        background-repeat:no-repeat;
+    }
+
+    /* الأقسام: الصورة فوق والكلام تحتها */
+    .grid-wrapper{grid-template-columns:1fr;gap:34px}
+    .jane-photo{order:-1}   /* صورة Jane فوق كلام About Me — احذفي هذا السطر إذا بدك الكلام فوق */
+
+    /* حجم الصور على الجوال (الأرقام من لوحة التحكم فوق) */
+    .room-photo{max-width:var(--room-mobile)}
+    .jane-photo{max-width:var(--jane-mobile)}
+
+    .glass-card{padding:42px 30px}
+    .full-width-section{padding:58px 26px}
+    .contact-rows{grid-template-columns:1fr}
+    .contact-row{border-right:none;border-bottom:1px solid rgba(47,143,139,.14);padding:18px}
+    .contact-row:last-child{border-bottom:none}
+}
+
+/* ===== iPad Mini Portrait + موبايلات (≤768px) ===== */
+@media (max-width:768px){
+    .hero-header{padding:56px 20px}
+    .glass-card{padding:38px 24px}
+    .glass-card::after{width:32px;height:32px;bottom:12px;right:12px}
+    .full-width-section{padding:50px 22px}
+    .full-width-section::after{width:36px;height:36px}
+    .expectation-item{padding:22px 22px;gap:16px}
+    .bullet-icon{width:34px;height:34px}
+    .scroll-hint{display:none}
+    .ornament-divider{margin-top:-36px}
+}
+
+/* ===== موبايلات كبيرة (≤640px) ===== */
+@media (max-width:640px){
+    .content-text{font-size:1.02rem}
+    .intro-text{padding:0 4px}
+    .cta-button{width:min(100%,360px);justify-content:center}
+    .cta-button-wrapper{padding:0 6px}
+    .expectations-list{gap:14px}
+    .expectation-item{padding:20px 18px}
+    .expectation-text{font-size:.98rem}
+}
+
+/* ===== موبايلات عادية (≤568px) ===== */
+@media (max-width:568px){
+    .hero-header{padding:48px 18px}
+    .hero-title{font-size:clamp(2.3rem,11vw,2.9rem)}
+    .hero-subtitle{letter-spacing:4px;margin:14px 0 0}
+    .contact-box{padding:36px 18px}
+    .ornament-divider span{width:44px}
+    .petal{display:none}
+}
+
+/* ===== موبايلات صغيرة (≤480px) ===== */
+@media (max-width:480px){
+    .hero-header{padding:44px 16px}
+    .glass-card{padding:32px 20px}
+    .card-header{margin-bottom:20px;padding-bottom:16px}
+    .full-width-section{padding:42px 16px;border-radius:18px}
+    .full-width-section::after{display:none}
+    .expectation-item{flex-direction:column;gap:12px}
+    .bullet-icon{width:32px;height:32px}
+    .contact-row{padding:16px 8px}
+    .contact-label{font-size:.68rem;letter-spacing:2px}
+    .footer{padding:34px 16px}
+}
+
+/* ===== موبايلات صغيرة جداً (≤360px) ===== */
+@media (max-width:360px){
+    .hero-title{font-size:2.1rem}
+    p{font-size:.98rem}
+    .button-text{font-size:1rem}
+    .button-subtext{font-size:.65rem}
+    .section-title{font-size:1.55rem}
+}
+
+/* ===== موبايلات Landscape (ارتفاع صغير + عرضي) ===== */
+@media (orientation:landscape) and (max-height:560px){
+    .hero-header{min-height:100dvh;padding:36px 24px}
+    .hero-title{font-size:clamp(2rem,7vh,3rem)}
+    .hero-subtitle{margin:10px 0 0;letter-spacing:4px}
+    .scroll-hint,.petal{display:none}
+}
+
+/* ===== أجهزة لمسية — تعطيل تأثيرات hover المزعجة ===== */
+@media (hover:none){
+    .glass-card:hover,
+    .photo-frame:hover{transform:none}
+    .expectation-item:hover{transform:none;border-left-color:var(--teal)}
+    .cta-button:hover{transform:none}
+}
+
+/* ===== حركة مخفّضة ===== */
+@media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+    html{scroll-behavior:auto}
+    .grid-section,.full-width-section{opacity:1;transform:none}
+}
+.hero-intro{
+    margin: clamp(20px, 2.8vw, 36px) auto 0;
+    max-width: min(620px, 84vw);
+    font-size: clamp(1.04rem, 1.8vw, 1.28rem);
+    line-height: 1.9;
+    color: var(--deep);
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: -0.1px;
+    text-shadow: 0 2px 26px rgba(255,253,249,.98), 0 1px 12px rgba(255,253,249,.96);
+}
+/* 💻 إخفاء البتلات على اللابتوب فقط — الجوال بتظل فيه */
+@media (min-width:901px){
+    .petal{display:none!important}
+}
+/* ============ شريط المطوّر — منفصل أسفل الموقع ============ */
+.dev-credit{
+    background:var(--primary);
+    
+    color:#fff;text-align:center;
+    padding:22px 20px 26px;
+    border-top:3px solid var(--teal);
+}
+.dev-credit-title{
+    font-family:'Cairo',sans-serif;font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;
+    color:rgba(255,255,255,.6);line-height:1.6;
+}
+.dev-credit-name{
+    font-family:'Lora',serif;font-size:1.05rem;font-weight:700;color:#fff;
+    margin:4px 0 12px;line-height:1.4;
+}
+.dev-credit-links{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 28px}
+.dev-credit-links a{
+    font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:600;
+    color:var(--warm-light);letter-spacing:.3px;
+}
+.dev-credit-links a span{color:rgba(255,255,255,.55);font-weight:400}
+.dev-credit-links a:hover{color:#fff}
+/* على الجوال: الرقم والإيميل كل واحد بسطر */
+@media (max-width:568px){
+    .dev-credit-links{flex-direction:column;gap:8px}
+}
+/* ============================================================
+   ✿ Artwork by Lena Schmid — بطاقة أنيقة (الاسم + الزر بسطر واحد)
+   ============================================================ */
+.art-credit{
+    display:inline-flex;align-items:center;gap:16px;
+    padding:10px 12px 10px 10px;
+    background:linear-gradient(135deg,#fff 0%,var(--sand) 100%);
+    border:1px solid rgba(47,143,139,.18);border-radius:100px;
+    box-shadow:0 12px 32px rgba(15,42,58,.08);
+}
+.art-credit-thumb{
+    width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;
+    border:2px solid #fff;
+    box-shadow:0 0 0 1.5px var(--warm),0 6px 14px rgba(15,42,58,.15);
+}
+.art-credit-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left;line-height:1.2;padding-right:4px}
+.art-credit-label{
+    font-family:'Cairo',sans-serif;font-size:.64rem;font-weight:700;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--warm);
+}
+.art-credit-name{
+    font-family:'Lora',serif;font-style:italic;font-weight:600;
+    font-size:1.22rem;color:var(--deep);margin-top:3px;white-space:nowrap;
+}
+.artwork-btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:10px 20px;border-radius:100px;
+    background:var(--teal);border:1.5px solid var(--teal);
+    color:#fff;font-family:'Cairo',sans-serif;font-size:.8rem;font-weight:700;
+    letter-spacing:.8px;text-transform:none;white-space:nowrap;
+    box-shadow:0 10px 24px rgba(47,143,139,.25);
+    transition:all .4s var(--ease);
+}
+.artwork-btn span{color:#fff;font-size:.95rem}
+.artwork-btn:hover{background:#25807c;border-color:#25807c;color:#fff;transform:translateY(-2px);box-shadow:0 14px 28px rgba(47,143,139,.32)}
+.copyright-block{margin-top:24px;padding-top:20px;border-top:1px solid rgba(47,143,139,.14)}
+
+/* 📱 الجوال: الصورة والاسم بسطر، والزر تحتهم بعرض البطاقة */
+@media (max-width:568px){
+    .art-credit{
+        flex-wrap:wrap;justify-content:center;
+        width:100%;max-width:360px;
+        padding:16px 18px;border-radius:24px;gap:12px 14px;
+    }
+    .artwork-btn{flex-basis:100%;justify-content:center;width:auto;max-width:none}
+    
+}
+/* شريط المطوّر — نسخة فاتحة */
+.dev-credit{background:var(--sand);border-top:3px solid var(--teal)}
+.dev-credit-title{color:var(--text2)}
+.dev-credit-name{color:var(--deep)}
+.dev-credit-links a{color:var(--teal)}
+.dev-credit-links a span{color:var(--text2)}
+.dev-credit-links a:hover{color:var(--warm)}
+</style>
+</head>
+<body>
+
+<header class="hero-header">
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="glow-aura"></div>
+    <span class="petal" style="left:8%;width:13px;height:13px;animation-duration:16s;animation-delay:0s"></span>
+    <span class="petal" style="left:20%;width:9px;height:9px;animation-duration:21s;animation-delay:4s"></span>
+    <span class="petal" style="left:35%;width:15px;height:15px;animation-duration:18s;animation-delay:8s"></span>
+    <span class="petal" style="left:55%;width:10px;height:10px;animation-duration:22s;animation-delay:2s"></span>
+    <span class="petal" style="left:70%;width:14px;height:14px;animation-duration:17s;animation-delay:10s"></span>
+    <span class="petal" style="left:85%;width:11px;height:11px;animation-duration:20s;animation-delay:6s"></span>
+    <span class="petal" style="left:93%;width:8px;height:8px;animation-duration:24s;animation-delay:12s"></span>
+
+    <div class="hero-inner">
+        <div class="hero-content">
+            <h1 class="hero-title">Jane Morrell</h1>
+            <p class="hero-subtitle">ZEN SHIATSU</p>
+        </div>
+    </div>
+    <a href="#about" class="scroll-hint" aria-label="Scroll down">⌄</a>
+</header>
+
+<main class="main-container">
+
+    <!-- ABOUT SHIATSU -->
+    <section class="grid-section" id="about">
+        <div class="grid-wrapper">
+            <div class="grid-item image-item room-photo">
+                
+                <div class="photo-frame">
+                    <img src="https://i.postimg.cc/ZKfCrNnC/Whats-App-Image-33.jpg" alt="Peaceful shiatsu treatment room" loading="lazy" decoding="async">
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="section-title">About Shiatsu</h2>
+                    </div>
+                    <p class="content-text">Shiatsu is a form of traditional Japanese bodywork that promotes the body’s innate ability to correct energetic imbalances and heal itself. Shiatsu emerged from a blending of Chinese Medicine, acupuncture meridians, and traditional Japanese massage. Palm, finger, elbow and knee pressure are used, along with gentle stretches and rotations, to unblock stagnant ki (energy) in meridians that run throughout the body. Through stimulating acupressure points along the meridians, shiatsu encourages deep relaxation and balance. Shiatsu is helpful for treating muscle pain, chronic pain, respiratory issues, stress, insomnia, fatigue, headaches, and digestive issues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ornament-divider" aria-hidden="true">
+        <span></span>
+        <svg width="24" height="24" viewBox="0 0 24 24"><g fill="#c99a6b" fill-opacity=".75"><ellipse cx="12" cy="5" rx="2.5" ry="4"/><ellipse cx="12" cy="19" rx="2.5" ry="4"/><ellipse cx="5" cy="12" rx="4" ry="2.5"/><ellipse cx="19" cy="12" rx="4" ry="2.5"/><ellipse cx="7" cy="7" rx="3.3" ry="2.1" transform="rotate(45 7 7)"/><ellipse cx="17" cy="7" rx="3.3" ry="2.1" transform="rotate(-45 17 7)"/><ellipse cx="7" cy="17" rx="3.3" ry="2.1" transform="rotate(-45 7 17)"/><ellipse cx="17" cy="17" rx="3.3" ry="2.1" transform="rotate(45 17 17)"/></g><circle cx="12" cy="12" r="2" fill="#2f8f8b"/></svg>
+        <span></span>
+    </div>
+
+    <!-- ABOUT ME -->
+    <section class="grid-section">
+        <div class="grid-wrapper">
+            <div class="grid-item">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="section-title">About Me</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="content-text">I began studying zen shiatsu with my teacher Shunji Morimoto of Wendell, MA in 2014. I have also studied with Karlo Berger of Providence, RI. I am a certified practitioner member of the American Organization for Bodywork Therapies of Asia (AOBTA). I continue to study alongside a group of practitioners who studied with Shunji, Moshi Moshi Shiatsu, a collective offering shiatsu at community events in Massachusetts and Rhode Island. From 2017-2018, I organized a weekly free clinic to offer accessible shiatsu to community members in Great Falls, MA. In addition to practicing shiatsu, I have taught middle school and high school students in a variety of roles since 2017, most recently teaching high school Special Education. I grew up on the unceded land of the Pocumtuc Nation in Amherst, MA, before relocating in 2024 to Providence, RI, on the traditional land of the Narragansett Nation.</p>
+                        <p class="content-text">My goal as a Shiatsu practitioner is to create a space where clients can allow their bodies and minds to feel their wholeness and innate ability to heal. Learning shiatsu from my teacher Shunji restored my faith in my ability to learn, grow, and change, and move beyond old beliefs I held about myself. I aspire to carry forward the same warmth, unconditional acceptance, and care that Shunji has offered to his students and clients throughout the last 40 years that he has been practicing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item image-item jane-photo">
+                <div class="photo-frame">
+                    <img src="https://i.postimg.cc/Dy5bBDjd/Whats-App-Image-22.jpg" alt="Jane Morrell" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT TO EXPECT -->
+    <section class="full-width-section">
+        <div class="section-content">
+            <h2 class="section-title">What to Expect</h2>
+            <div class="expectations-list">
+                <div class="expectation-item"><span class="bullet-icon">01</span><p class="expectation-text">There will be a brief intake at the beginning of the session so I can understand your needs and goals. If it is your first appointment, we will discuss your health intake form.</p></div>
+                <div class="expectation-item"><span class="bullet-icon">02</span><p class="expectation-text">Shiatsu sessions are clothed and performed on a futon mat. Please wear comfortable clothing that is easy to move and stretch in.</p></div>
+                <div class="expectation-item"><span class="bullet-icon">03</span><p class="expectation-text">Sessions include thumb, palm, elbow and knee pressure along meridians throughout the body, combined with gentle stretches and rotations.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOK -->
+    <section class="full-width-section">
+        <div class="section-content">
+            <h2 class="section-title">Book a Shiatsu Treatment</h2>
+            <p class="intro-text">To see availability and schedule a shiatsu session online, please use the link below. If you are having trouble finding an available appointment that works with your schedule, or if cost is a barrier, please reach out to me directly through email or text.</p>
+            <div class="cta-button-wrapper">
+                <a href="https://janemorrellshiatsu.as.me/" target="_blank" class="cta-button">
+                    <span class="button-text">Book Online</span>
+                    <span class="button-subtext">See calendar with upcoming availability</span>
+                    <span class="pulse-ripple"></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT BOX -->
+    <section class="contact-box-section">
+        <div class="contact-box">
+            <h2 class="section-title">Contact</h2>
+
+            <div class="contact-rows">
+                <div class="contact-row">
+                    <div class="contact-label">Phone / Text</div>
+                    <div class="contact-value">
+                        <a href="tel:+14135227770">+1 (413) 522-7770</a>
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:jmorrell.shiatsu@gmail.com">jmorrell.shiatsu@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Address</div>
+                    <div class="contact-value">
+                        Birdsong Traditional Medicine<br>
+                        Acupuncture and Wellness Clinic<br>
+                        148 Waterman St. Ground Level<br>
+                        Providence, RI 02908
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+  
+    <div class="footer-rule"></div>
+
+    <div class="art-credit">
+        <img class="art-credit-thumb" src="https://i.postimg.cc/jddCfNwK/Whats-App-Image-2026-08-26-at-4-17-03-PM.jpg" alt="Artwork by Lena Schmid" loading="lazy" decoding="async">
+        <div class="art-credit-text">
+            <span class="art-credit-label">Artwork by</span>
+            <span class="art-credit-name">Lena Schmid</span>
+        </div>
+        <a href="https://schmidlena.com" target="_blank" rel="noopener" class="artwork-btn">
+            <span>✿</span> schmidlena.com
+        </a>
+    </div>
+
+    <div class="copyright-block">
+        <p class="footer-text">© 2026 Jane Morrell | Zen Shiatsu Practitioner</p>
+        <p class="footer-subtext">Traditional Healing • Providence, RI</p>
+    </div>
+
+</footer>
+  
+
+
+<!-- ======= شريط المطوّر — منفصل أسفل الموقع ======= -->
+<div class="dev-credit">
+    <p class="dev-credit-title">Website developed by</p>
+    <p class="dev-credit-name">Saif Aburok</p>
+    <div class="dev-credit-links">
+        <a href="tel:0598337311"><span>Phone:</span> 0598337311</a>
+        <a href="mailto:seifrok6@gmail.com"><span>Email:</span> seifrok6@gmail.com</a>
+    </div>
+</div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.grid-section,.full-width-section').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
