@@ -530,6 +530,16 @@ a{text-decoration:none;transition:all .45s var(--ease)}
 .dev-credit-links a{color:var(--teal)}
 .dev-credit-links a span{color:var(--text2)}
 .dev-credit-links a:hover{color:var(--warm)}
+   /* ============ العنوان داخل إطار شفاف ============ */
+.hero-content{
+    display:inline-block;
+    padding:clamp(18px,3vw,30px) clamp(26px,5vw,52px);
+    background:transparent;                     /* شفاف تماماً */
+    border:2px solid var(--deep);               /* ← الإطار: السماكة + اللون */
+    border-radius:22px;                         /* ← استدارة الزوايا (0 = زوايا حادة) */
+}
+.hero-title{color:var(--deep)}                  /* ← لون Jane Morrell */
+.hero-subtitle{color:var(--teal)}               /* ← لون ZEN SHIATSU */
 </style>
 </head>
 <body>
