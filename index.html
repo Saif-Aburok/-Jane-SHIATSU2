@@ -171,6 +171,8 @@ a{text-decoration:none;transition:all .45s var(--ease)}
 }
 .photo-frame:hover{transform:translateY(-5px);box-shadow:0 32px 85px rgba(15,42,58,.16)}
 .photo-frame img{display:block;width:100%;height:auto;border-radius:12px}
+.photo-frame .slide img,
+.photo-frame .slider-sizer{width:100%}
 
 /* ============ CARDS ============ */
 .glass-card{
@@ -539,7 +541,143 @@ a{text-decoration:none;transition:all .45s var(--ease)}
     border-radius:22px;                         /* ← استدارة الزوايا (0 = زوايا حادة) */
 }
 .hero-title{color:var(--deep)}                  /* ← لون Jane Morrell */
-.hero-subtitle{color:var(--deep)}               /* ← لون ZEN SHIATSU */
+.hero-subtitle{color:var(--deep)}  
+/* ════════ سلايدر صور الغرفة ════════ */
+.slider{
+    position:relative;
+    overflow:hidden;
+    border-radius:12px;
+    line-height:0;
+}
+
+/* صورة القياس: تثبّت الحجم الأصلي وما تظهر */
+.slider-sizer{
+    display:block;
+    width:100%;
+    height:auto;
+    visibility:hidden;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    pointer-events:none;
+    overflow:hidden;
+    transition:opacity .55s var(--ease);
+}
+.slide.is-active{
+    opacity:1;
+    pointer-events:auto;
+}
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    border-radius:12px;
+    transform:none; /* ما تكبّر الصورة */
+}
+
+/* الأسهم جوّا الدايرة تماماً */
+.slider-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:5;
+    width:42px;
+    height:42px;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    font-size:0;
+    line-height:0;
+    color:var(--deep);
+    background:rgba(255,253,249,.9);
+    border:1px solid rgba(255,255,255,.85);
+    border-radius:50%;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 5px 16px rgba(15,42,58,.16);
+    cursor:pointer;
+    touch-action:manipulation;
+    transition:background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.slider-arrow.prev{left:12px}
+.slider-arrow.next{right:12px}
+
+/* رسم السهم صغير وجوّا الزر */
+.slider-arrow::before{
+    content:'';
+    width:8px;
+    height:8px;
+    border:solid currentColor;
+    border-width:0 2px 2px 0;
+    box-sizing:border-box;
+}
+.slider-arrow.prev::before{transform:translateX(1px) rotate(135deg)}
+.slider-arrow.next::before{transform:translateX(-1px) rotate(-45deg)}
+
+@media (hover:hover) and (pointer:fine){
+    .slider-arrow:hover{
+        background:var(--deep);
+        border-color:var(--deep);
+        color:#fff;
+        box-shadow:0 8px 20px rgba(15,42,58,.26);
+    }
+}
+.slider-arrow:active{transform:translateY(-50%) scale(.96)}
+
+.slider-dots{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:5px 8px;
+    background:rgba(15,42,58,.45);
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:100px;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+.slider-dots button{
+    width:22px;
+    height:22px;
+    padding:0;
+    border:none;
+    background:transparent;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+}
+.slider-dots button::before{
+    content:'';
+    width:6px;
+    height:6px;
+    border-radius:100px;
+    background:rgba(255,255,255,.55);
+    transition:width .3s ease, background .3s ease;
+}
+.slider-dots button.active::before{
+    width:16px;
+    background:#fff;
+}
+
+@media (max-width:568px){
+    .slider-arrow{width:38px;height:38px}
+    .slider-arrow.prev{left:8px}
+    .slider-arrow.next{right:8px}
+}
+
+@media (prefers-reduced-motion:reduce){
+    .slide{transition:none}
+}
 </style>
 </head>
 <body>
@@ -570,11 +708,21 @@ a{text-decoration:none;transition:all .45s var(--ease)}
     <section class="grid-section" id="about">
         <div class="grid-wrapper">
             <div class="grid-item image-item room-photo">
-                
-                <div class="photo-frame">
-                    <img src="https://i.postimg.cc/ZKfCrNnC/Whats-App-Image-33.jpg" alt="Peaceful shiatsu treatment room" loading="lazy" decoding="async">
-                </div>
-            </div>
+    <div class="photo-frame">
+        <div class="slider" id="roomSlider">
+            <img class="slider-sizer" src="https://i.postimg.cc/DmVMLjFY/Whats-App-Image-2026-09-14-at-7-54-03-PM.jpg" alt="" aria-hidden="true">
+
+            <div class="slide is-active"><img src="https://i.postimg.cc/DmVMLjFY/Whats-App-Image-2026-09-14-at-7-54-03-PM.jpg" alt="Treatment room"></div>
+            <div class="slide"><img src="https://i.postimg.cc/XJRRk7kX/Whats-App-Image-2026-09-14-at-7-45-35-PM.jpg" alt="Treatment room" loading="lazy"></div>
+            <div class="slide"><img src="https://i.postimg.cc/FKJGgbWV/Whats-App-Image-2026-09-14-at-7-45-35-PM.jpg" alt="Treatment room" loading="lazy"></div>
+            <div class="slide"><img src="https://i.postimg.cc/28K4cbZm/Whats-App-Image-2026-09-14-at-7-45-35-PM.jpg" alt="Treatment room" loading="lazy"></div>
+
+            <button class="slider-arrow prev" type="button" aria-label="Previous"></button>
+            <button class="slider-arrow next" type="button" aria-label="Next"></button>
+            <div class="slider-dots"></div>
+        </div>
+    </div>
+</div>
             <div class="grid-item">
                 <div class="glass-card">
                     <div class="card-header">
@@ -714,6 +862,66 @@ a{text-decoration:none;transition:all .45s var(--ease)}
 <script>
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
 document.querySelectorAll('.grid-section,.full-width-section').forEach(el=>io.observe(el));
+
+/* ════ سلايدر الصور — احترافي ════ */
+document.querySelectorAll('.slider').forEach(function(slider){
+    var slides = slider.querySelectorAll('.slide');
+    var dotsBox = slider.querySelector('.slider-dots');
+    var prev = slider.querySelector('.prev');
+    var next = slider.querySelector('.next');
+    var count = slider.querySelector('.slider-count');
+    var i = 0, total = slides.length;
+    if(!total) return;
+
+    for(var n=0; n<total; n++){
+        (function(n){
+            var d = document.createElement('button');
+            d.type='button';
+            d.setAttribute('aria-label','Image '+(n+1));
+            d.onclick = function(){ i=n; show(); reset(); };
+            dotsBox.appendChild(d);
+        })(n);
+    }
+    var dots = dotsBox.querySelectorAll('button');
+
+    function show(){
+        for(var n=0;n<total;n++){
+            slides[n].classList.toggle('is-active', n===i);
+            dots[n].classList.toggle('active', n===i);
+        }
+        if(count) count.innerHTML = '<b>'+(i+1)+'</b> / '+total;
+    }
+
+    /* إعادة تشغيل شريط تقدّم النقطة */
+    function reset(){
+        var active = dotsBox.querySelector('button.active');
+        if(!active) return;
+        var clone = active.cloneNode(true);
+        active.parentNode.replaceChild(clone, active);
+        clone.onclick = active.onclick;
+        dots = dotsBox.querySelectorAll('button');
+    }
+
+    prev.onclick = function(){ i=(i-1+total)%total; show(); };
+    next.onclick = function(){ i=(i+1)%total; show(); };
+
+    /* تبديل تلقائي كل ٦ ثواني */
+    var timer = setInterval(function(){ i=(i+1)%total; show(); }, 6000);
+    slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
+
+    /* السحب باللمس */
+    var x0=null;
+    slider.addEventListener('touchstart', function(e){ x0=e.touches[0].clientX; }, {passive:true});
+    slider.addEventListener('touchend', function(e){
+        if(x0===null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        if(dx<-45){ i=(i+1)%total; show(); }
+        if(dx> 45){ i=(i-1+total)%total; show(); }
+        x0=null;
+    });
+
+    show();
+});
 </script>
 </body>
-</html>
+</html
