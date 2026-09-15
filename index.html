@@ -897,9 +897,7 @@ document.querySelectorAll('.slider').forEach(function(slider){
     prev.onclick = function(){ i=(i-1+total)%total; show(); };
     next.onclick = function(){ i=(i+1)%total; show(); };
 
-    /* تبديل تلقائي كل ٦ ثواني */
-    var timer = setInterval(function(){ i=(i+1)%total; show(); }, 6000);
-    slider.addEventListener('mouseenter', function(){ clearInterval(timer); });
+   
 
     /* السحب باللمس */
     var x0=null;
