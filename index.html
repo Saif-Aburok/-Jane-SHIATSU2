@@ -585,8 +585,8 @@ a{text-decoration:none;transition:all .45s var(--ease)}
     top:50%;
     transform:translateY(-50%);
     z-index:5;
-    width:42px;
-    height:42px;
+    width:44px;
+    height:44px;
     padding:0;
     margin:0;
     overflow:hidden;
@@ -594,38 +594,30 @@ a{text-decoration:none;transition:all .45s var(--ease)}
     place-items:center;
     font-size:0;
     line-height:0;
-    color:var(--deep);
-    background:rgba(255,253,249,.9);
-    border:1px solid rgba(255,255,255,.85);
+    color:#fff;
+    background:rgba(15,42,58,.42);
+    border:1px solid rgba(255,255,255,.35);
     border-radius:50%;
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 5px 16px rgba(15,42,58,.16);
     cursor:pointer;
-    touch-action:manipulation;
-    transition:background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 .slider-arrow.prev{left:12px}
 .slider-arrow.next{right:12px}
-
-/* رسم السهم صغير وجوّا الزر */
 .slider-arrow::before{
     content:'';
-    width:8px;
-    height:8px;
+    width:9px;
+    height:9px;
     border:solid currentColor;
-    border-width:0 2px 2px 0;
-    box-sizing:border-box;
+    border-width:0 1.5px 1.5px 0;
 }
-.slider-arrow.prev::before{transform:translateX(1px) rotate(135deg)}
-.slider-arrow.next::before{transform:translateX(-1px) rotate(-45deg)}
+.slider-arrow.prev::before{transform:translateX(2px) rotate(135deg)}
+.slider-arrow.next::before{transform:translateX(-2px) rotate(-45deg)}
 
 @media (hover:hover) and (pointer:fine){
     .slider-arrow:hover{
-        background:var(--deep);
-        border-color:var(--deep);
-        color:#fff;
-        box-shadow:0 8px 20px rgba(15,42,58,.26);
+        background:rgba(15,42,58,.78);
+        border-color:rgba(255,255,255,.6);
     }
 }
 .slider-arrow:active{transform:translateY(-50%) scale(.96)}
