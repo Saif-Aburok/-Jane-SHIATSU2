@@ -961,7 +961,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // دالة استدعاء شفرة جوجل أناليتكس وتفعيلها ديناميكياً
     function startTracking() {
         var script1 = document.createElement('script');
-        script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
+      script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
+
         script1.async = true;
         document.head.appendChild(script1);
 
