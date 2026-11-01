@@ -951,7 +951,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function startTracking() {
         var script1 = document.createElement('script');
-        script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
+        script1.src = 'https://googletagmanager.com';
+
         script1.async = true;
         document.head.appendChild(script1);
 
