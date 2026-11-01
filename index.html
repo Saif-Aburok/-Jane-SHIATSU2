@@ -959,10 +959,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // دالة استدعاء شفرة جوجل أناليتكس وتفعيلها ديناميكياً
-    function startTracking() {
+           function startTracking() {
         var script1 = document.createElement('script');
-      script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
-
+        script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
         script1.async = true;
         document.head.appendChild(script1);
 
@@ -971,9 +970,12 @@ document.addEventListener("DOMContentLoaded", function() {
         gtag('js', new Date());
         gtag('config', MEASUREMENT_ID);
         
-        console.log("تم تفعيل Google Analytics بنجاح بعد موافقة المستخدم.");
+        console.log("Google Analytics activated successfully.");
     }
+}
 });
+</script>
+
 </script>
 
 
