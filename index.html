@@ -913,11 +913,7 @@ document.querySelectorAll('.slider').forEach(function(slider){
     show();
 });
 </script>
-
-
-<!-- نافذة الموافقة على ملفات الارتباط (Cookie Banner) لزوار الموقع -->
-<!-- Cookie Consent Banner for International Visitors -->
-<!-- Professional & Responsive Cookie Consent Banner for International Visitors -->
+<!-- Professional Cookie Consent Banner -->
 <div id="cookie-banner" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 550px; background: #2c3e50; color: #f5f0eb; padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 99999; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; display: none; direction: ltr; text-align: left; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.1);">
     <div style="display: flex; flex-direction: column; gap: 15px; align-items: flex-start;">
         <p style="margin: 0; font-size: 14px; line-height: 1.6; font-weight: 400; color: #f5f0eb;">We use cookies and data analytics to enhance your experience and track website traffic responsibly.</p>
@@ -928,38 +924,32 @@ document.querySelectorAll('.slider').forEach(function(slider){
     </div>
 </div>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const banner = document.getElementById("cookie-banner");
     const acceptBtn = document.getElementById("accept-cookies");
     const declineBtn = document.getElementById("decline-cookies");
 
-    // معرف القياس الخاص بحسابك في Google Analytics
-    const MEASUREMENT_ID = "G-6JRQPBPCHY"; 
+    const MEASUREMENT_ID = "G-6JRQPBPCHY";
 
-    // التحقق من حالة موافقة الزائر السابقة
     if (!localStorage.getItem("cookieConsent")) {
-        banner.style.display = "block"; // إظهار النافذة للزائر الجديد
+        banner.style.display = "block";
     } else if (localStorage.getItem("cookieConsent") === "accepted") {
-        startTracking(); // تفعيل التتبع فوراً إذا وافق مسبقاً
+        startTracking();
     }
 
-    // تفعيل التتبع عند الضغط على زر قبول الكل
     acceptBtn.addEventListener("click", function() {
         localStorage.setItem("cookieConsent", "accepted");
         banner.style.display = "none";
         startTracking();
     });
 
-    // إغلاق النافذة بدون تتبع عند الضغط على زر رفض
     declineBtn.addEventListener("click", function() {
         localStorage.setItem("cookieConsent", "declined");
         banner.style.display = "none";
     });
 
-    // دالة استدعاء شفرة جوجل أناليتكس وتفعيلها ديناميكياً
-           function startTracking() {
+    function startTracking() {
         var script1 = document.createElement('script');
         script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
         script1.async = true;
@@ -972,12 +962,8 @@ document.addEventListener("DOMContentLoaded", function() {
         
         console.log("Google Analytics activated successfully.");
     }
-}
 });
 </script>
 
-</script>
-
-
 </body>
-</html
+</html>
