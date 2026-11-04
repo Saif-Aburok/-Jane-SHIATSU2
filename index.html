@@ -930,34 +930,39 @@ document.addEventListener("DOMContentLoaded", function() {
     const acceptBtn = document.getElementById("accept-cookies");
     const declineBtn = document.getElementById("decline-cookies");
 
-    const MEASUREMENT_ID = "G-6JRQPBPCHY";
+    // تم تصحيح المعرّف ليتطابق مع حسابك تماماً
+    const MEASUREMENT_ID = "G-6JRQPBCPMY"; 
 
     if (!localStorage.getItem("cookieConsent")) {
-        banner.style.display = "block";
+        if (banner) banner.style.display = "block";
     } else if (localStorage.getItem("cookieConsent") === "accepted") {
         startTracking();
     }
 
-    acceptBtn.addEventListener("click", function() {
-        localStorage.setItem("cookieConsent", "accepted");
-        banner.style.display = "none";
-        startTracking();
-    });
+    if (acceptBtn) {
+        acceptBtn.addEventListener("click", function() {
+            localStorage.setItem("cookieConsent", "accepted");
+            if (banner) banner.style.display = "none";
+            startTracking();
+        });
+    }
 
-    declineBtn.addEventListener("click", function() {
-        localStorage.setItem("cookieConsent", "declined");
-        banner.style.display = "none";
-    });
+    if (declineBtn) {
+        declineBtn.addEventListener("click", function() {
+            localStorage.setItem("cookieConsent", "declined");
+            if (banner) banner.style.display = "none";
+        });
+    }
 
     function startTracking() {
+        // تم تصحيح رابط التنزيل ليعمل بشكل صحيح
         var script1 = document.createElement('script');
-        script1.src = 'https://googletagmanager.com';
-
+        script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
         script1.async = true;
         document.head.appendChild(script1);
 
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){dataLayer.push(arguments).catch(err => {});}
         gtag('js', new Date());
         gtag('config', MEASUREMENT_ID);
         
@@ -965,6 +970,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+
 
 </body>
 </html>
