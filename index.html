@@ -924,52 +924,16 @@ document.querySelectorAll('.slider').forEach(function(slider){
     </div>
 </div>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://googletagmanager.com"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const banner = document.getElementById("cookie-banner");
-    const acceptBtn = document.getElementById("accept-cookies");
-    const declineBtn = document.getElementById("decline-cookies");
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    // تم تصحيح المعرّف ليتطابق مع حسابك تماماً
-    const MEASUREMENT_ID = "G-6JRQPBPCMY"; 
-
-    if (!localStorage.getItem("cookieConsent")) {
-        if (banner) banner.style.display = "block";
-    } else if (localStorage.getItem("cookieConsent") === "accepted") {
-        startTracking();
-    }
-
-    if (acceptBtn) {
-        acceptBtn.addEventListener("click", function() {
-            localStorage.setItem("cookieConsent", "accepted");
-            if (banner) banner.style.display = "none";
-            startTracking();
-        });
-    }
-
-    if (declineBtn) {
-        declineBtn.addEventListener("click", function() {
-            localStorage.setItem("cookieConsent", "declined");
-            if (banner) banner.style.display = "none";
-        });
-    }
-
-    function startTracking() {
-        // تم تصحيح رابط التنزيل ليعمل بشكل صحيح
-        var script1 = document.createElement('script');
-        script1.src = 'https://googletagmanager.com' + MEASUREMENT_ID;
-        script1.async = true;
-        document.head.appendChild(script1);
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments).catch(err => {});}
-        gtag('js', new Date());
-        gtag('config', MEASUREMENT_ID);
-        
-        console.log("Google Analytics activated successfully.");
-    }
-});
+  gtag('config', 'G-6JRQPBPCMY');
 </script>
+
 
 
 </body>
